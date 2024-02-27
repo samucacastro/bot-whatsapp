@@ -4,7 +4,7 @@
 
 // app.get('/', (req, res)=>{
 // 	return res.send('ok')
-// })
+// }) 
 
 const {
 	DisconnectReason,
@@ -25,7 +25,7 @@ async function connectionLogic() {
 	// Use file-based authentication state
 	const { state, saveCreds } = await useMultiFileAuthState("auth_info_baileys");
 	const sock = makeWASocket({
-		//logger: pino({ level: "silent" }),
+		logger: pino({ level: "silent" }),
 		printQRInTerminal: true,
 		auth: state,
 		emitOwnEvents: true,
@@ -47,7 +47,7 @@ async function connectionLogic() {
 		}
 		// ... rest of your code 
 	});
-	//sock.ev.on("creds.update", saveCreds);
+	sock.ev.on("creds.update", saveCreds);
 
 
                           /*LOGICA*/
@@ -111,7 +111,6 @@ sock.ev.on("creds.update", async () => {
 	console.log("Conexão estabelecida!")
 	try{
 		await sock.sendMessage('557792025471@s.whatsapp.net', { text: "Olá! Conexão estabelecida." });
-		const options = {}
 	}catch(error){
 		console.log('DEU ERRO NO CREDS UPDATE')
 		console.log(error)
@@ -121,7 +120,7 @@ sock.ev.on("creds.update", async () => {
 // ... rest of your code
 
 
-	 //sock.ev.on("creds.update", saveCreds);
+	 sock.ev.on("creds.update", saveCreds);
 }
 
 
