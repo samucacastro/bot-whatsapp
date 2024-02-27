@@ -25,7 +25,7 @@ async function connectionLogic() {
 	// Use file-based authentication state
 	const { state, saveCreds } = await useMultiFileAuthState("auth_info_baileys");
 	const sock = makeWASocket({
-		logger: pino({ level: "silent" }),
+		//logger: pino({ level: "silent" }),
 		printQRInTerminal: true,
 		auth: state,
 		emitOwnEvents: true,
@@ -97,13 +97,13 @@ async function connectionLogic() {
 		}
 	);
 
-	// ... rest of your code
-	// sock.ev.on('chats.set', async () => {
-	// 		// can use "store.chats" however you want, even after the socket dies out
-	// 		// "chats" => a KeyedDB instance
-	// 		await sock.sendMessage('557792025471@s.whatsapp.net', { text: "Olá! Zé." });
-	// 		//console.log('got chats', store.chats.all())
-	// })
+	//... rest of your code
+	sock.ev.on('chats.set', async () => {
+			// can use "store.chats" however you want, even after the socket dies out
+			// "chats" => a KeyedDB instance
+			await sock.sendMessage('557792025471@s.whatsapp.net', { text: "Olá! Zé." });
+			//console.log('got chats', store.chats.all())
+	})
 
 
 sock.ev.on("creds.update", async () => {
