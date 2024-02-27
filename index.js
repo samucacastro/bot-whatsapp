@@ -1,10 +1,10 @@
-const express = require("express");
-const app = require("express")();
-app.use(express.json);
+// const express = require("express");
+// const app = require("express")();
+// app.use(express.json);
 
-app.get('/', (req, res)=>{
-	return res.send('ok')
-})
+// app.get('/', (req, res)=>{
+// 	return res.send('ok')
+// })
 
 const {
 	DisconnectReason,
@@ -127,7 +127,7 @@ sock.ev.on("creds.update", async () => {
 
 
 connectionLogic();
-app.use()
-app.listen(3000, ()=>{
-	console.log("SERVIDORR ON")
-});
+// app.use()
+// app.listen(3000, ()=>{
+// 	console.log("SERVIDORR ON")
+// });
