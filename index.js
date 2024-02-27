@@ -1,7 +1,10 @@
-//const express = require("express");
-//const app = require("express")();
-//app.use(express.json);
-//app.use(bodyParser.urlencoded({ extended: true }));
+const express = require("express");
+const app = require("express")();
+app.use(express.json);
+
+app.get('/', (req, res)=>{
+	return res.send('ok')
+})
 
 const {
 	DisconnectReason,
@@ -27,7 +30,6 @@ async function connectionLogic() {
 		auth: state,
 		emitOwnEvents: true,
 	});
-	sock.ev.on("creds.update", saveCreds);
 	sock.ev.on("connection.update", async (update) => {
 		const { connection, lastDisconnect, qr } = update || {};
 		if (qr) {
@@ -96,29 +98,36 @@ async function connectionLogic() {
 	);
 
 	// ... rest of your code
-	sock.ev.on('chats.set', () => {
-			// can use "store.chats" however you want, even after the socket dies out
-			// "chats" => a KeyedDB instance
-			sock.sendMessage('557792025471@s.whatsapp.net', { text: "Olá! Zé." });
-			//console.log('got chats', store.chats.all())
-	})
+	// sock.ev.on('chats.set', async () => {
+	// 		// can use "store.chats" however you want, even after the socket dies out
+	// 		// "chats" => a KeyedDB instance
+	// 		await sock.sendMessage('557792025471@s.whatsapp.net', { text: "Olá! Zé." });
+	// 		//console.log('got chats', store.chats.all())
+	// })
 
 
-sock.ev.on("creds.update", () => {
+sock.ev.on("creds.update", async () => {
 	// O código dentro desta função será executado quando as credenciais forem atualizadas, ou seja, quando a conexão for estabelecida
 	console.log("Conexão estabelecida!")
-	sock.sendMessage('557792025471@s.whatsapp.net', { text: "Olá! Conexão estabelecida." });
-	const options = {}
-	
+	try{
+		await sock.sendMessage('557792025471@s.whatsapp.net', { text: "Olá! Conexão estabelecida." });
+		const options = {}
+	}catch(error){
+		console.log('DEU ERRO NO CREDS UPDATE')
+		console.log(error)
+	}
 });
 
 // ... rest of your code
 
 
-	// sock.ev.on("creds.update", saveCreds);
+	 sock.ev.on("creds.update", saveCreds);
 }
 
 
 
 connectionLogic();
-//app.listen(3000)
+app.use()
+app.listen(3000, ()=>{
+	console.log("SERVIDORR ON")
+});
