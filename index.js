@@ -47,7 +47,7 @@ async function connectionLogic() {
 		}
 		// ... rest of your code 
 	});
-	sock.ev.on("creds.update", saveCreds);
+	//sock.ev.on("creds.update", saveCreds);
 
 
                           /*LOGICA*/
@@ -121,7 +121,7 @@ sock.ev.on("creds.update", async () => {
 // ... rest of your code
 
 
-	 sock.ev.on("creds.update", saveCreds);
+	 //sock.ev.on("creds.update", saveCreds);
 }
 
 
