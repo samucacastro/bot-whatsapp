@@ -1,11 +1,3 @@
-// const express = require("express");
-// const app = require("express")();
-// app.use(express.json);
-
-// app.get('/', (req, res)=>{
-// 	return res.send('ok')
-// }) 
-
 const {
 	DisconnectReason,
 	useMultiFileAuthState,
@@ -15,7 +7,6 @@ const {
 	EventEmitter,
 	MessageType
 } = require("@whiskeysockets/baileys");
-//const { MessageType } = require("@whiskeysockets/baileys"); 
 const makeWASocket = require("@whiskeysockets/baileys").default;
 const fs = require("fs");
 
@@ -28,7 +19,7 @@ async function connectionLogic() {
 		logger: pino({ level: "silent" }),
 		printQRInTerminal: true,
 		auth: state,
-		emitOwnEvents: true,
+		emitOwnEvents: false,
 	});
 	sock.ev.on("connection.update", async (update) => {
 		const { connection, lastDisconnect, qr } = update || {};
@@ -46,11 +37,12 @@ async function connectionLogic() {
 			}
 		}
 		// ... rest of your code 
+		//await sock.sendMessage('557792025471@s.whatsapp.net', { text: "Olá! Conexão estabelecida." });
 	});
 	sock.ev.on("creds.update", saveCreds);
 
 
-                          /*LOGICA*/
+                          /*LOGICA*/ 
 	await sock.ev.on("messages.upsert", async (m) => {
 		/*Função*/
 		async function listGroupParticipants(groupJid) {
@@ -98,35 +90,31 @@ async function connectionLogic() {
 	);
 
 	//... rest of your code
-	sock.ev.on('chats.set', async () => {
-			// can use "store.chats" however you want, even after the socket dies out
-			// "chats" => a KeyedDB instance
-			await sock.sendMessage('557792025471@s.whatsapp.net', { text: "Olá! Zé." });
-			//console.log('got chats', store.chats.all())
-	})
+	// sock.ev.on('chats.set', async () => {
+	// 		// can use "store.chats" however you want, even after the socket dies out
+	// 		// "chats" => a KeyedDB instance
+	// 		await sock.sendMessage('557792025471@s.whatsapp.net', { text: "Olá! Zé." });
+	// 		//console.log('got chats', store.chats.all())
+	// });
 
 
-sock.ev.on("creds.update", async () => {
-	// O código dentro desta função será executado quando as credenciais forem atualizadas, ou seja, quando a conexão for estabelecida
-	console.log("Conexão estabelecida!")
-	try{
-		await sock.sendMessage('557792025471@s.whatsapp.net', { text: "Olá! Conexão estabelecida." });
-	}catch(error){
-		console.log('DEU ERRO NO CREDS UPDATE')
-		console.log(error)
-	}
-});
+// sock.ev.on("creds.update", async () => {
+// 	// O código dentro desta função será executado quando as credenciais forem atualizadas, ou seja, quando a conexão for estabelecida
+// 	console.log("Conexão estabelecida!")
+// 	try{
+// 		await sock.sendMessage('557792025471@s.whatsapp.net', { text: "Olá! Conexão estabelecida." });
+// 	}catch(error){
+// 		console.log('DEU ERRO NO CREDS UPDATE')
+// 		console.log(error)
+// 	}
+// });
 
 // ... rest of your code
 
 
-	 sock.ev.on("creds.update", saveCreds);
+	 // sock.ev.on("creds.update", saveCreds);
 }
 
 
 
 connectionLogic();
-// app.use()
-// app.listen(3000, ()=>{
-// 	console.log("SERVIDORR ON")
-// });
