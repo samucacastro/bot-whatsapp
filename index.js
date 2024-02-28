@@ -13,14 +13,38 @@ const fs = require("fs");
 
 const pino = require('pino');
 async function connectionLogic() {
+	
 	// Use file-based authentication state
 	const { state, saveCreds } = await useMultiFileAuthState("auth_info_baileys");
 	const sock = makeWASocket({
 		logger: pino({ level: "silent" }),
+		defaultQueryTimeoutMs: undefined,
 		printQRInTerminal: true,
 		auth: state,
 		emitOwnEvents: false,
+		browser: ['Dashboard WPP', '', '3.0'],
 	});
+	
+
+	/*TESTE*/
+	socketConfig = {
+    defaultQueryTimeoutMs: undefined,
+    printQRInTerminal: false,
+    browser: ['Dashboard WPP', '', '3.0'],
+    logger: pino({
+        level: 'silent',
+    }),
+    generateHighQualityLinkPreview: true,
+}
+
+
+// const { state, saveCreds } = await useMultiFileAuthState('sessiondata/' + this.key + '/')
+// this.authState = { state: state, saveCreds: saveCreds, keys: makeCacheableSignalKeyStore(state.keys) }
+// this.socketConfig.auth = this.authState.state
+// this.instance.sock = makeWASocket(this.socketConfig)
+
+	/*FIM TESTE*/
+
 	sock.ev.on("connection.update", async (update) => {
 		const { connection, lastDisconnect, qr } = update || {};
 		if (qr) {
